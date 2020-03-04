@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\DiscordBot.csproj", "{FE32F286-7012-4480-994B-2F3C976B9506}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "src\DiscordBot.csproj", "{FE32F286-7012-4480-994B-2F3C976B9506}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
