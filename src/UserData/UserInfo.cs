@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -12,16 +14,10 @@ namespace DiscordBot.UserData
 {
     public class UserInfo
     {
-        private string _file = "users.json";
-        private DiscordSocketClient _client;
-
-        public UserInfo(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        private static string _file = "../../../UserData/users.json";
 
         // Returns the data about a given user
-        public async Task<int> GetUserDataAsync(int discordID)
+        public static async Task<int> GetUserDataAsync(int discordID)
         {
             Dictionary<int, int> content = JsonConvert.DeserializeObject<Dictionary<int, int>>(_file);
             List<KeyValuePair<int, int>> users = content.Where(x => x.Key == discordID).ToList();
@@ -37,20 +33,26 @@ namespace DiscordBot.UserData
         }
 
         // Adds a user into the base, does nothing if it already exists
-        public async Task StoreUserDataAsync(Dictionary<int, int> data)
+        public static async Task StoreUserDataAsync(Dictionary<int, int> data)
         {
-            Dictionary<int, int> content = JsonConvert.DeserializeObject<Dictionary<int, int>>(_file);
-            
+            Console.WriteLine(File.Exists(_file));
+            Dictionary<int, int> dico = JsonConvert.DeserializeObject<Dictionary<int, int>>(_file);
+            //Dictionary<string, string> dico = JsonConvert.DeserializeObject<Dictionary<string, string>>(_file);
+            Console.WriteLine("Desarialization Done.");
+            //Dictionary<int, int> content = dico.ToDictionary(x => int.Parse(x.Key), x => int.Parse(x.Value));
+            Console.WriteLine("All Done.");
+
             foreach (var pair in data) {
-                if(!content.ContainsKey(pair.Key))
-                    content.Add(pair.Key, pair.Value);
+                Console.WriteLine($"{pair.Key} : {pair.Value}");
+                if(!dico.ContainsKey(pair.Key))
+                    dico.Add(pair.Key, pair.Value);
             }
 
             JsonConvert.DeserializeObject < Dictionary<int, int>>(_file);
         }
 
         // Adds a user into the base, replaces the current value if it already exists
-        public async Task UpdateUserData(Dictionary<int, int> data)
+        public static async Task UpdateUserData(Dictionary<int, int> data)
         {
             Dictionary<int, int> content = JsonConvert.DeserializeObject<Dictionary<int, int>>(_file);
             

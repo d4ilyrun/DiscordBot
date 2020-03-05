@@ -26,7 +26,7 @@ namespace DiscordBot
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
-        {        
+        {      
             var message = messageParam as SocketUserMessage;
             int argPos = 0; // Delimiteur commande/parametres
 
