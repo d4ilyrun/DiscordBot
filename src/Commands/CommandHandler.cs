@@ -13,10 +13,10 @@ namespace DiscordBot
         private DiscordSocketClient _client;
         private CommandService _commands;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands)
+        public CommandHandler(DiscordSocketClient client)
         {
             this._client = client;
-            this._commands = commands;
+            this._commands = new CommandService();
         }
 
         public async Task InstallCommandsAsync()
