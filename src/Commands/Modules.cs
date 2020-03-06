@@ -21,9 +21,15 @@ namespace DiscordBot.Commands
     {
         [Command("register")]
         [Alias("rg")]
-        [Summary("Links an osu profile to your account")]
-        public Task registerAsync(int discordID, int osuID)
+        [Summary("Saves data about a user into the base")]
+        public Task registerUserAsync(int discordID, int osuID)
            => UserInfo.StoreUserDataAsync(new Dictionary<int, int>() {{discordID, osuID}});
+
+
+        [Command("get")]
+        [Summary("Gets data about a user from the base")]
+        public Task getUserAsync(int discordID)
+            => UserInfo.GetUserDataAsync(discordID);
     }
     
     [Group("osu")]
