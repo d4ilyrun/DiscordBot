@@ -1,4 +1,10 @@
+# .NET build files
 bin/
 obj/
+
+# Rider files
 /packages/
 *idea/
+
+# Private API
+src/APIKeys.cs

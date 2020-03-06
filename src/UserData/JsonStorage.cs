@@ -13,7 +13,7 @@ using JsonConverter = System.Text.Json.Serialization.JsonConverter;
 
 namespace DiscordBot.UserData
 {
-    public abstract class JsonStorage : IDataStorage
+    public abstract class JsonStorage //:IDataStorage
     {
         private static string _file;
 

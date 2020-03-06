@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using DiscordBot.Private;
 
 namespace DiscordBot
 {
@@ -20,8 +21,7 @@ namespace DiscordBot
             _handler = new CommandHandler(_client);
             await _handler.InstallCommandsAsync();
 
-            // Temporary => Unsecure
-            string token = "Mzc4OTMxNjcwMDg4Mjg2MjA4.Xl_pMw.obYH4Y0LgWHGeKN4LHyjZ2dvyt8";
+            string token = APIKeys.BotAPI;
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
@@ -33,7 +33,6 @@ namespace DiscordBot
                 return Task.CompletedTask;
             };
                 
-            //Blocks the task until the program is closed
             await (Task.Delay(-1));
         }
         

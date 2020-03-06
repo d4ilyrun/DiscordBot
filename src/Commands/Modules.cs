@@ -23,13 +23,13 @@ namespace DiscordBot.Commands
         [Alias("rg")]
         [Summary("Saves data about a user into the base")]
         public Task registerUserAsync(int discordID, int osuID)
-           => UserInfo.StoreUserDataAsync(new Dictionary<int, int>() {{discordID, osuID}});
+            => ReplyAsync("Work In Progress");
 
 
         [Command("get")]
         [Summary("Gets data about a user from the base")]
         public Task getUserAsync(int discordID)
-            => UserInfo.GetUserDataAsync(discordID);
+            => ReplyAsync("Work In Progress");
     }
     
     [Group("osu")]
