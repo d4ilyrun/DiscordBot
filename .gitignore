@@ -6,5 +6,6 @@ obj/
 /packages/
 *idea/
 
-# Private API
+# Private files
 src/APIKeys.cs
+src/UserData/users.json

@@ -8,7 +8,7 @@ using DiscordBot.UserData;
 
 namespace DiscordBot.Commands
 {
-    public class infoModules : ModuleBase<SocketCommandContext>
+    public class InfoModules : ModuleBase<SocketCommandContext>
     {
         [Command("say")]
         [Summary("Echoes a message")]
@@ -17,23 +17,28 @@ namespace DiscordBot.Commands
     }
 
     [Group("data")]
-    public class dataModules : ModuleBase<SocketCommandContext>
+    public class DataModules : ModuleBase<SocketCommandContext>
     {
-        [Command("register")]
-        [Alias("rg")]
+        [Command("add")]
         [Summary("Saves data about a user into the base")]
-        public Task registerUserAsync(int discordID, int osuID)
-            => ReplyAsync("Work In Progress");
+        public Task RegisterUserAsync(string discordID, int osuID)
+            => UserInfo.StoreUserAsync(new Dictionary<string, int>{{discordID, osuID}});
+        
+        
+        [Command("update")]
+        [Summary("Update data about a user in the base")]
+        public Task UpdateUserAsync(string discordID, int osuID)
+            => UserInfo.UpdateUserAsync(new Dictionary<string, int>{{discordID, osuID}});
 
 
-        [Command("get")]
+        [Command("delete")]
         [Summary("Gets data about a user from the base")]
-        public Task getUserAsync(int discordID)
-            => ReplyAsync("Work In Progress");
+        public Task GetUserAsync(string discordID)
+            => UserInfo.DeleteUserAsync(discordID);
     }
     
     [Group("osu")]
-    public class osuModules : ModuleBase<SocketCommandContext>
+    public class OsuModules : ModuleBase<SocketCommandContext>
     {
         
     }
