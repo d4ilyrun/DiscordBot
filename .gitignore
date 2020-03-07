@@ -8,4 +8,4 @@ obj/
 
 # Private files
 src/APIKeys.cs
-src/UserData/users.json
+src/Data/Database/

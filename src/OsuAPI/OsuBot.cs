@@ -1,6 +1,7 @@
 namespace DiscordBot.OsuAPI
 {
-    public class Osu
+    public class OsuBot
     {
+        
     }
 }

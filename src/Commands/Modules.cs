@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using DiscordBot.OsuAPI;
 using DiscordBot.UserData;
 
 namespace DiscordBot.Commands
@@ -21,14 +22,14 @@ namespace DiscordBot.Commands
     {
         [Command("add")]
         [Summary("Saves data about a user into the base")]
-        public Task RegisterUserAsync(string discordID, int osuID)
-            => UserInfo.StoreUserAsync(new Dictionary<string, int>{{discordID, osuID}});
+        public async Task RegisterUserAsync(string discordID, string username)
+            => await UserInfo.StoreUserAsync(new Dictionary<string, PlayerModel>{{discordID, await OsuAPI.OsuAPI.RequestUser(username)}});
         
         
         [Command("update")]
         [Summary("Update data about a user in the base")]
-        public Task UpdateUserAsync(string discordID, int osuID)
-            => UserInfo.UpdateUserAsync(new Dictionary<string, int>{{discordID, osuID}});
+        public async Task UpdateUserAsync(string discordID, string username)
+            => await UserInfo.UpdateUserAsync(new Dictionary<string, PlayerModel>{{discordID, await OsuAPI.OsuAPI.RequestUser(username)}});
 
 
         [Command("delete")]
