@@ -1,4 +1,3 @@
-`!user @user / osuUsername` => returns a small summary of a user's osu pofile
 `!recent @user / osuUsername` => returns an overview of the player's last submitted play
 `!top @user / osuUsername` => returns the user's five highest wighted plays
 `!register osuUsername` => link an existing osu user to the sender's discord account

@@ -43,24 +43,22 @@ namespace DiscordBot.OsuAPI
             using (HttpResponseMessage reponse = await MakeRequest("get_user", args)) {
                 if (reponse.IsSuccessStatusCode) {
                     PlayerModel[] player = await reponse.Content.ReadAsAsync<PlayerModel[]>();
-                    return player[0];
+                    return (player.Length > 0) ? player[0] : null;
                 }
-                
+
                 throw new Exception(reponse.ReasonPhrase);
             }
         }
         
         // Retrieves information about a beatmap
-        public static async Task<BeatmapModel> RequestBeatmap(string beatmapsetID, string beatmapID = "")
+        public static async Task<BeatmapModel[]> RequestBeatmap(string beatmapsetID)
         {
-            (string, string)[] args = (beatmapID == "") 
-                ? new (string, string)[] {("s", beatmapsetID)} 
-                : new [] {("s", beatmapsetID), ("b", beatmapID)};
+            (string, string)[] args = {("s", beatmapsetID)};
 
             using (HttpResponseMessage reponse = await MakeRequest("get_beatmaps", args)) {
                 if (reponse.IsSuccessStatusCode) {
                     
-                    BeatmapModel beatmap = await reponse.Content.ReadAsAsync<BeatmapModel>();
+                    BeatmapModel[] beatmap = await reponse.Content.ReadAsAsync<BeatmapModel[]>();
                     return beatmap;
                 }
                 

@@ -15,7 +15,7 @@ namespace DiscordBot.UserData
 {
     public class UserInfo
     {
-        private static JsonStorage _json = new JsonStorage("UserData/users.json");
+        private static JsonStorage _json = new JsonStorage("Data/Database/users.json");
         
         // Retrieves the osu profile linked to the account from the database
         public static async Task<List<KeyValuePair<string ,PlayerModel>>> GetUserAsync(string key)

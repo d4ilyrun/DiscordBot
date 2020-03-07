@@ -41,6 +41,9 @@ namespace DiscordBot.Commands
     [Group("osu")]
     public class OsuModules : ModuleBase<SocketCommandContext>
     {
-        
+        [Command("u")]
+        [Summary("Prints a summary of the player using discord's rich embed messages")]
+        public async Task DisplayUser(string username)
+            =>  await ReplyAsync("", false,  (Embed) await OsuBot.PrintPlayer(username));
     }
 }
