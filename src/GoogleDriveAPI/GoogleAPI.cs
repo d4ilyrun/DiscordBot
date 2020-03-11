@@ -47,10 +47,14 @@ namespace DiscordBot.GoogleDriveAPI
 
         public static void UploadImageFromLink(string link)
         {
-            using (var client = new WebClient())
-            {
-                //client.DownloadFile(link, RandomizeName(10));
+            string name = RadomizeName(10) + ".jpg";
+
+            using (var client = new WebClient()){
+                client.DownloadFile(link, name);
             }
+
+            UploadImage(name);
+            System.IO.File.Delete(name);
         }
         
         public static void UploadImage(string path)
@@ -98,6 +102,7 @@ namespace DiscordBot.GoogleDriveAPI
             );
 
             json.StoreDataAsync(new Dictionary<string, object> {{userID, token}});
+            System.IO.File.WriteAllText("token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", "{}");
         }
 
         private async void LoadToken(string userID)

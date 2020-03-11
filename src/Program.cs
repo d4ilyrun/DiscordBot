@@ -17,7 +17,7 @@ namespace DiscordBot
             Console.WriteLine(Directory.GetCurrentDirectory());
             Directory.SetCurrentDirectory("src");
             Console.WriteLine(Directory.GetCurrentDirectory());
-            GoogleDriveAPI.GoogleAPI.UploadImage(Directory.GetCurrentDirectory() + "/E17_-_9.png");
+            GoogleDriveAPI.GoogleAPI.UploadImageFromLink("https://cdn.discordapp.com/attachments/459779887767486484/686982257176477773/ESvVRVFUwAAtI4e.png");
         }
             //=> new Program().MainAsync().GetAwaiter().GetResult();
 
