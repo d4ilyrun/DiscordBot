@@ -6,6 +6,13 @@ obj/
 /packages/
 *idea/
 
+# VS files
+.vscode
+
 # Private files
 src/APIKeys.cs
 src/Data/Database/
+token.json
+*.png
+*.jpg
+

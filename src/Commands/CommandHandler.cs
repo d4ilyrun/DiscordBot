@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Security;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -29,6 +32,7 @@ namespace DiscordBot
         {      
             var message = messageParam as SocketUserMessage;
             int argPos = 0; // Delimiteur commande/parametres
+            string[] imagesUrl = {".jpg", ".png"};
 
             // Verifie que ce soit un message d'utilisateur, et adressé au bot
             if (message == null
@@ -36,7 +40,14 @@ namespace DiscordBot
                 || message.HasMentionPrefix(_client.CurrentUser, ref argPos)
                 || message.Author.IsBot)
                 return;
-            
+
+            if (message.Attachments.Count > 0) {
+                List<Attachment> images = message.Attachments
+                    .Where(x => imagesUrl
+                        .Any(y => x.Filename.EndsWith(y)))
+                    .ToList();
+            }
+
             // Detecte puis execute la commande
             var context = new SocketCommandContext(_client, message);
             await _commands.ExecuteAsync(context, argPos, null);

@@ -8,6 +8,10 @@
     <ItemGroup>
       <PackageReference Include="Discord.Net" Version="2.1.1" />
       <PackageReference Include="Discord.Net.Commands" Version="2.1.1" />
+      <PackageReference Include="Google.Apis" Version="1.44.1" />
+      <PackageReference Include="Google.Apis.Discovery.v1" Version="1.44.1" />
+      <PackageReference Include="Google.Apis.Drive.v2" Version="1.44.1.1876" />
+      <PackageReference Include="Google.Apis.Drive.v3" Version="1.44.1.1876" />
       <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
@@ -16,10 +20,6 @@
       <Content Include="..\README.md">
         <Link>README.md</Link>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="GoogleAPI" />
     </ItemGroup>
 
 </Project>

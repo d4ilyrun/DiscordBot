@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
@@ -12,7 +13,13 @@ namespace DiscordBot
         private CommandHandler _handler;
 
         static void Main(string[] args)
-            => new Program().MainAsync().GetAwaiter().GetResult();
+        {
+            Console.WriteLine(Directory.GetCurrentDirectory());
+            Directory.SetCurrentDirectory("src");
+            Console.WriteLine(Directory.GetCurrentDirectory());
+            GoogleDriveAPI.GoogleAPI.UploadImage(Directory.GetCurrentDirectory() + "/E17_-_9.png");
+        }
+            //=> new Program().MainAsync().GetAwaiter().GetResult();
 
         public async Task MainAsync()
         {

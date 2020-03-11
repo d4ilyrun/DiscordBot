@@ -20,7 +20,7 @@ namespace DiscordBot.UserData
 
         public JsonStorage(string file)
         {
-            _file = "../../../" + file;
+            _file = file;
         }
 
         public  Dictionary<string, object> GetDictionnary()
@@ -41,6 +41,7 @@ namespace DiscordBot.UserData
             Dictionary<string, object> dict = GetDictionnary();
             
             foreach (var pair in data) {
+                Console.WriteLine(pair);
                 dict.TryAdd(pair.Key, pair.Value);
             }
             string json = JsonConvert.SerializeObject(dict, Formatting.Indented);
