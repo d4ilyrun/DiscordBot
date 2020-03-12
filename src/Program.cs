@@ -27,7 +27,7 @@ namespace DiscordBot
             _client = new DiscordSocketClient(config); // Connection au client
             _handler = new CommandHandler(_client);
             await _handler.InstallCommandsAsync();
-            Directory.SetCurrentDirectory("src");
+            //Directory.SetCurrentDirectory("src");
 
             string token = APIKeys.BotAPI;
 

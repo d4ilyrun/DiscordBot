@@ -40,10 +40,9 @@ namespace DiscordBot.UserData
         {
             Dictionary<string, object> dict = GetDictionnary();
             
-            foreach (var pair in data) {
-                Console.WriteLine(pair);
+            foreach (var pair in data) 
                 dict.TryAdd(pair.Key, pair.Value);
-            }
+            
             string json = JsonConvert.SerializeObject(dict, Formatting.Indented);
             File.WriteAllText(_file, json);
 
