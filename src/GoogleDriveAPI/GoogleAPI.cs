@@ -1,8 +1,10 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.Auth.OAuth2;
@@ -16,7 +18,7 @@ namespace DiscordBot.GoogleDriveAPI
     public class GoogleAPI
     {
         private static string[] _scopes = { DriveService.Scope.Drive };
-        private static string _applicationName = "DiscordBot";
+        private static readonly string _applicationName = "DiscordBot";
         private static UserCredential _credential = GetCredentials();
         private static DriveService _service = new DriveService(new BaseClientService.Initializer()
         {
@@ -45,7 +47,7 @@ namespace DiscordBot.GoogleDriveAPI
             return credential;
         }
 
-        public static void UploadImageFromLink(string link)
+        public static void UploadImageFromLink(string channelID, string link)
         {
             string name = RadomizeName(10) + ".jpg";
 
@@ -53,21 +55,19 @@ namespace DiscordBot.GoogleDriveAPI
                 client.DownloadFile(link, name);
             }
 
-            UploadImage(name);
+            UploadImage(channelID, name);
             System.IO.File.Delete(name);
         }
         
-        public static void UploadImage(string path)
+        public static void UploadImage(string channelID, string path)
         {
-            var fileMetadata = new File()
-            {
-                Name = RadomizeName(9)
+            var fileMetadata = new File(){
+                Name = Path.GetFileName(path)
             };
-            
+
             FilesResource.CreateMediaUpload request;
-            Console.WriteLine(path);
-            if (_service == null) Console.WriteLine("null");
-            else Console.WriteLine("truc");
+            LoadToken(channelID);
+
             using (var stream = new System.IO.FileStream(path,
                 System.IO.FileMode.Open))
             {
@@ -81,7 +81,7 @@ namespace DiscordBot.GoogleDriveAPI
             string test = (file == null) ? "null":file.Id;
             Console.WriteLine(test);
 
-            GoogleAPI.SaveToken("test");
+            GoogleAPI.SaveToken(channelID);
         }
 
         private static string RadomizeName(int length)
@@ -94,24 +94,24 @@ namespace DiscordBot.GoogleDriveAPI
             return res;
         }
 
-        private static void SaveToken(string userID)
+        private static void SaveToken(string channelID)
         {
             JsonStorage json = new JsonStorage("Data/Database/googleTokens.json");
             TokenModel token = JsonConvert.DeserializeObject<TokenModel>(
                 System.IO.File.ReadAllText("token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user")
             );
 
-            json.StoreDataAsync(new Dictionary<string, object> {{userID, token}});
+            json.StoreDataAsync(new Dictionary<string, object> {{channelID, token}});
             System.IO.File.WriteAllText("token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", "{}");
         }
 
-        private async void LoadToken(string userID)
+        private static async void LoadToken(string channelID)
         {
             JsonStorage json = new JsonStorage("Data/Database/googleTokens.json");
-            TokenModel token = (await json.GetDataAsync(userID))[0].Value as TokenModel;
-            string res = JsonConvert.SerializeObject(token);
+            List<KeyValuePair<string, object>> list = await json.GetDataAsync(channelID);
 
-            System.IO.File.WriteAllText("token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", res);
+            string token = (list.Count > 0) ? JsonConvert.SerializeObject(list[0].Value) : "{}";
+            System.IO.File.WriteAllText("token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", token);
         }
     }
 }

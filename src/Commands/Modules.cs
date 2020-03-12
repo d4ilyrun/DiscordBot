@@ -6,6 +6,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using DiscordBot.OsuAPI;
 using DiscordBot.UserData;
+using DiscordBot.GoogleDriveAPI;
 
 namespace DiscordBot.Commands
 {
@@ -45,5 +46,15 @@ namespace DiscordBot.Commands
         [Summary("Prints a summary of the player using discord's rich embed messages")]
         public async Task DisplayUser(string username)
             =>  await ReplyAsync("", false,  (Embed) await OsuBot.PrintPlayer(username));
+    }
+
+
+    [Group("image")]
+    public class ImageModules : ModuleBase<SocketCommandContext>
+    {
+        [Command("save")]
+        [Summary("saves an image (given by link) on a distant google drive")]
+        public async Task SaveImageLink(string channelID, string imageLink)
+            => await new Task ( () =>  GoogleAPI.UploadImageFromLink(channelID, imageLink) );
     }
 }

@@ -13,13 +13,13 @@ namespace DiscordBot
         private CommandHandler _handler;
 
         static void Main(string[] args)
-        {
+        /*{
             Console.WriteLine(Directory.GetCurrentDirectory());
             Directory.SetCurrentDirectory("src");
             Console.WriteLine(Directory.GetCurrentDirectory());
             GoogleDriveAPI.GoogleAPI.UploadImageFromLink("https://cdn.discordapp.com/attachments/459779887767486484/686982257176477773/ESvVRVFUwAAtI4e.png");
-        }
-            //=> new Program().MainAsync().GetAwaiter().GetResult();
+        }*/
+            => new Program().MainAsync().GetAwaiter().GetResult();
 
         public async Task MainAsync()
         {
@@ -27,6 +27,7 @@ namespace DiscordBot
             _client = new DiscordSocketClient(config); // Connection au client
             _handler = new CommandHandler(_client);
             await _handler.InstallCommandsAsync();
+            Directory.SetCurrentDirectory("src");
 
             string token = APIKeys.BotAPI;
 
