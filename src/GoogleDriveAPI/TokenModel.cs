@@ -11,5 +11,6 @@ namespace DiscordBot.GoogleDriveAPI
         public string scope { get; set; }
         public string issued { get; set; }
         public string issuedUtc { get; set; }
+        public string folderId { get; set; }
     }
 }

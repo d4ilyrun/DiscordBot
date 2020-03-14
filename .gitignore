@@ -12,6 +12,7 @@ obj/
 # Private files
 src/APIKeys.cs
 src/Data/Database/
-token.json
 *.png
 *.jpg
+ToDo.txt
+Whitelist.cs

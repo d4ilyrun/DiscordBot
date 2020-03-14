@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -47,24 +49,29 @@ namespace DiscordBot.GoogleDriveAPI
             return credential;
         }
 
+
         public static void UploadImageFromLink(string channelID, string link)
         {
+            // Only permitted channels can save their images onto the drive
+            if(!Enum.IsDefined(typeof(Whitelist), long.Parse(channelID)))
+                return;
+
+            channelID = "ABSOLUTE"; // Used when there is only one token    
             string name = RadomizeName(10) + ".jpg";
+            LoadToken(channelID);
+            File fileMetadata = CreateFile(channelID, name);
 
             using (var client = new WebClient()){
                 client.DownloadFile(link, name);
             }
 
-            UploadImage(channelID, name);
+            UploadImage(channelID, name, fileMetadata);
             System.IO.File.Delete(name);
         }
         
-        public static void UploadImage(string channelID, string path)
+        
+        public static void UploadImage(string channelID, string path, File fileMetadata)
         {
-            var fileMetadata = new File(){
-                Name = Path.GetFileName(path)
-            };
-
             FilesResource.CreateMediaUpload request;
             LoadToken(channelID);
 
@@ -82,7 +89,8 @@ namespace DiscordBot.GoogleDriveAPI
             Console.WriteLine(test);
 
             GoogleAPI.SaveToken(channelID);
-        }
+        }   
+
 
         private static string RadomizeName(int length)
         {
@@ -93,7 +101,22 @@ namespace DiscordBot.GoogleDriveAPI
                 res += random.Next(10).ToString();
             return res;
         }
+   
+        // Can be used in case you use multiple tokens (originally planned but not implemented yes)
+        private static File CreateFile(string channelID, string name)
+        {
+            Dictionary<string, TokenModel> dict = JsonConvert.DeserializeObject<Dictionary<string, TokenModel>>(
+                System.IO.File.ReadAllText("Data/Database/googleTokens.json"));
+            bool hasValue = dict.TryGetValue(channelID, out TokenModel token);
 
+            File file = new File() { Name = name };
+            if(hasValue && token.folderId != null)
+                file.Parents = new List<string> { token.folderId };
+
+            return file;
+        }
+
+        // Can be used in case you use multiple tokens (originally planned but not implemented yes)
         private static void SaveToken(string channelID)
         {
             JsonStorage json = new JsonStorage("Data/Database/googleTokens.json");
@@ -105,6 +128,7 @@ namespace DiscordBot.GoogleDriveAPI
             System.IO.File.WriteAllText("token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user", "{}");
         }
 
+        // Can be used in case you use multiple tokens (originally planned but not implemented yes)
         private static async void LoadToken(string channelID)
         {
             JsonStorage json = new JsonStorage("Data/Database/googleTokens.json");
